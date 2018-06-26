@@ -12,7 +12,12 @@ app.use(index);
 const server = http.createServer(app);
 const io = socketIo(server); // < Interesting!
 
-io.origins('*:*');
+io.origins((origin, callback) => {
+  if (origin !== 'https://jeopardy.dorfs.website' || origin !== 'http://localhost:*') {
+    return callback('origin not allowed', false);
+  }
+  callback(null, true);
+});
 
 io.on("connection", socket => {
   let room;
