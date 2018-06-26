@@ -3,21 +3,22 @@ const http = require("http");
 const socketIo = require("socket.io");
 const axios = require("axios");
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4001;
 const index = require("./routes/index");
 const app = express();
 
 app.use(index);
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 const server = http.createServer(app);
 const io = socketIo(server); // < Interesting!
 
-io.origins((origin, callback) => {
-  if (origin !== 'https://jeopardy.dorfs.website' || origin !== 'http://localhost:*') {
-    return callback('origin not allowed', false);
-  }
-  callback(null, true);
-});
+io.origins('*:*');
 
 io.on("connection", socket => {
   let room;
