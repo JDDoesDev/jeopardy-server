@@ -10,7 +10,7 @@ const app = express();
 app.use(index);
 
 const server = http.createServer(app);
-const io = socketIo(server); // < Interesting!
+const io = socketIo(server, { origins: '*:*'}); // < Interesting!
 
 io.on("connection", socket => {
   let room;
