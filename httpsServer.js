@@ -1,17 +1,13 @@
 const express = require("express");
 const http = require("http");
+const https = require("https");
 const socketIo = require("socket.io");
 const axios = require("axios");
-const cors = require("cors");
 
-const port = process.env.PORT || 3001;
-const sslPort = 4001;
+const port = process.env.PORT || 4001;
 const index = require("./routes/index");
 const app = express();
 
-
-app.use(cors());
-app.use(index);
 
 app.use(function (req, res, next) {
 console.log(req);
