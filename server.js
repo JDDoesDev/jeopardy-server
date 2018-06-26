@@ -11,7 +11,7 @@ const sslPort = 4001;
 const index = require("./routes/index");
 const app = express();
 
-const server = https.createServer(app);
+const server = http.createServer(app);
 const io = socketIo(server); // < Interesting!
 
 app.use(cors());
