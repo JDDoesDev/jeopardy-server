@@ -21,6 +21,7 @@ io.origins("*:*");
 
 io.on("connection", socket => {
   let room;
+  let teams = {};
 
   console.log("New client connected");
 
@@ -42,9 +43,17 @@ io.on("connection", socket => {
     socket.broadcast.to(room).emit('view clue', data);
   })
   socket.on('teams', (data) => {
-    socket.broadcast.to(room).emit('teams', data);
+    console.log(data);
+    io.in(room).emit('teams', data);
+  })
+  socket.on('get teams', (data) => {
+    socket.broadcast.to(room).emit('get teams', data);
+  })
+  socket.on('show daily', (data) => {
+    socket.broadcast.to(room).emit('show daily', data);
   })
   socket.on('room', (data) => {
+    console.log(data)
     socket.join(data);
     room = data;
   })
