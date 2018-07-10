@@ -27,6 +27,11 @@ io.on("connection", socket => {
 
   socket.emit('hello world', 'this is working!');
 
+  socket.on('room', (data, fn) => {
+    socket.join(data);
+    fn(true);
+    room = data;
+  })
   socket.on('prepare', (data) => {
     socket.broadcast.to(room).emit('prepare', data);
   })
@@ -43,21 +48,41 @@ io.on("connection", socket => {
     socket.broadcast.to(room).emit('view clue', data);
   })
   socket.on('teams', (data) => {
-    console.log(data);
     io.in(room).emit('teams', data);
   })
-  socket.on('get teams', (data) => {
-    socket.broadcast.to(room).emit('get teams', data);
+  socket.on('team getter', (data) => {
+    socket.broadcast.to(room).emit('team getter', data);
   })
   socket.on('show daily', (data) => {
     socket.broadcast.to(room).emit('show daily', data);
   })
-  socket.on('room', (data) => {
-    console.log(data)
-    socket.join(data);
-    room = data;
+  socket.on('firsties', (data) => {
+    console.log('firsties')
+    socket.broadcast.to(room).emit('firsties', data);
   })
-
+  socket.on('buzzer', (data) => {
+    socket.broadcast.to(room).emit('buzzer', data);
+  })
+  socket.on('answered', (data) => {
+    console.log('answered');
+    console.log(data);
+    socket.broadcast.to(room).emit('answered', data);
+  })
+  socket.on('final jeopardy', (data) => {
+    socket.broadcast.to(room).emit('final jeopardy', data);
+  })
+  socket.on('final answer', (data) => {
+    console.log(data);
+    socket.broadcast.to(room).emit('final answer', data);
+  })
+  socket.on('final wager reveal', (data) => {
+    console.log(data);
+    socket.broadcast.to(room).emit('final wager reveal', data);
+  })
+  socket.on('final wager', (data) => {
+    console.log(data);
+    socket.broadcast.to(room).emit('final wager', data);
+  })
 
   socket.on("disconnect", () => console.log("Client disconnected"));
 });
