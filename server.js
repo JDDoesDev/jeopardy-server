@@ -31,6 +31,7 @@ io.on("connection", socket => {
     socket.join(data);
     fn(true);
     room = data;
+    console.log(room)
   })
   socket.on('prepare', (data) => {
     socket.broadcast.to(room).emit('prepare', data);
